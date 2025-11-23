@@ -47,9 +47,9 @@ public class ClientSessionManager
 	private final Client client;
 	private final SessionClient sessionClient;
 	private final OpenOSRSConfig openOSRSConfig;
+	private static final UUID sessionId = UUID.randomUUID();
 
 	private ScheduledFuture<?> scheduledFuture;
-	private UUID sessionId;
 
 	@Inject
 	ClientSessionManager(ScheduledExecutorService executorService,
@@ -71,20 +71,7 @@ public class ClientSessionManager
 			return;
 		}
 
-		executorService.execute(() ->
-		{
-			try
-			{
-				sessionId = sessionClient.open();
-				log.debug("Opened session {}", sessionId);
-			}
-			catch (IOException ex)
-			{
-				log.warn("error opening session", ex);
-			}
-		});
-
-		scheduledFuture = executorService.scheduleWithFixedDelay(RunnableExceptionLogger.wrap(this::ping), 1, 10, TimeUnit.MINUTES);
+		scheduledFuture = executorService.scheduleWithFixedDelay(RunnableExceptionLogger.wrap(this::ping), (int) (5 * 60 * Math.random()), 10 * 60, TimeUnit.SECONDS);
 	}
 
 	@Subscribe
@@ -94,44 +81,12 @@ public class ClientSessionManager
 		{
 			scheduledFuture.cancel(true);
 		}
-
-		e.waitFor(executorService.submit(() ->
-		{
-			try
-			{
-				UUID localUuid = sessionId;
-				if (localUuid != null)
-				{
-					sessionClient.delete(localUuid);
-				}
-			}
-			catch (IOException ex)
-			{
-				log.warn(null, ex);
-			}
-			sessionId = null;
-		}));
 	}
 
 	private void ping()
 	{
 		if (!isWorldHostValid())
 		{
-			return;
-		}
-
-		try
-		{
-			if (sessionId == null)
-			{
-				sessionId = sessionClient.open();
-				log.debug("Opened session {}", sessionId);
-				return;
-			}
-		}
-		catch (IOException ex)
-		{
-			log.warn("unable to open session", ex);
 			return;
 		}
 
@@ -144,10 +99,8 @@ public class ClientSessionManager
 		}
 		catch (IOException ex)
 		{
-			log.warn("Resetting session", ex);
-			sessionId = null;
+			log.warn("Unable to ping session service", ex);
 		}
-
 	}
 
 	private boolean isWorldHostValid()
