@@ -32,6 +32,7 @@ import com.google.common.primitives.Ints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import java.io.FileDescriptor;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -139,6 +140,7 @@ import net.runelite.api.widgets.WidgetUtil;
 import net.runelite.rs.api.RSAbstractArchive;
 import net.runelite.rs.api.RSArchive;
 import net.runelite.rs.api.RSBuffer;
+import net.runelite.rs.api.RSBufferedNetSocket;
 import net.runelite.rs.api.RSCameraFocusableEntity;
 import net.runelite.rs.api.RSChatChannel;
 import net.runelite.rs.api.RSClanChannel;
@@ -3736,5 +3738,13 @@ public abstract class RSClientMixin implements RSClient
 	public WorldView findWorldViewFromWorldPoint(WorldPoint point)
 	{
 		return client.getWorldViewManager().getWorldViewFromWorldPoint(point.getX(), point.getY());
+	}
+
+	@Nullable
+	@Inject
+	@Override
+	public FileDescriptor getSocketFD()
+	{
+		return getPacketWriter().getSocket() != null ? ((RSBufferedNetSocket) getPacketWriter().getSocket()).getFileDescriptor() : null;
 	}
 }

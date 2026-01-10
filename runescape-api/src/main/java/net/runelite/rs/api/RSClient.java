@@ -1524,6 +1524,9 @@ public interface RSClient extends RSGameEngine, Client
 	void addCachedNpc(RSNPC npc);
 	void removeCachedNpc(RSNPC npc);
 
+	@Import("packetWriter")
+	RSPacketWriter getPacketWriter();
+
 	/**
 	 * Jagex launcher credentials
 	 */
