@@ -2602,6 +2602,7 @@ public abstract class RSClientMixin implements RSClient
 	@Override
 	public void stopNow()
 	{
+		this.unblockStartup();
 		setStopTimeMs(1);
 	}
 

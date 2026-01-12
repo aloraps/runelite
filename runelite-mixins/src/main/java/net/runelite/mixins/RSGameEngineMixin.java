@@ -27,6 +27,7 @@ package net.runelite.mixins;
 import net.runelite.api.events.FocusChanged;
 import net.runelite.api.hooks.DrawCallbacks;
 import java.awt.event.FocusEvent;
+import java.util.concurrent.Semaphore;
 import net.runelite.api.mixins.Copy;
 import net.runelite.api.mixins.FieldHook;
 import net.runelite.api.mixins.Inject;
@@ -64,11 +65,37 @@ public abstract class RSGameEngineMixin implements RSGameEngine
 	}
 
 	@Inject
+	public Semaphore semaphore;
+
+	@Inject
+	@Override
+	public void unblockStartup()
+	{
+		if (this.semaphore != null)
+		{
+			this.semaphore.release();
+		}
+	}
+
+	@Inject
 	@MethodHook("run")
 	public void onRun()
 	{
 		thread = Thread.currentThread();
 		thread.setName("Client");
+
+		try
+		{
+			if (Boolean.getBoolean("runelite.delaystart"))
+			{
+				this.semaphore = new Semaphore(0);
+				this.semaphore.acquire();
+			}
+		}
+		catch (Exception e)
+		{
+			client.getLogger().error("", e);
+		}
 	}
 
 	@Inject
