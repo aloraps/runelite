@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, Hydrox6 <ikada@protonmail.ch>
+ * Copyright (c) 2026, Adam <Adam@sigterm.info>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -22,42 +22,57 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package net.runelite.api;
+package net.runelite.client.plugins.worldhopper.ping;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import com.sun.jna.Structure;
+import com.sun.jna.platform.win32.WinDef;
+import java.util.List;
 
-/**
- * Enum of all official icons that Jagex uses in chat.
- */
-@RequiredArgsConstructor
-@Getter
-public enum IconID
+public class TCP_INFO_v0 extends Structure
 {
-	PLAYER_MODERATOR(0),
-	JAGEX_MODERATOR(1),
-	IRONMAN(2),
-	ULTIMATE_IRONMAN(3),
-	DMM_SKULL_5_KEYS(4),
-	DMM_SKULL_4_KEYS(5),
-	DMM_SKULL_3_KEYS(6),
-	DMM_SKULL_2_KEYS(7),
-	DMM_SKULL_1_KEYS(8),
-	SKULL(9),
-	HARDCORE_IRONMAN(10),
-	NO_ENTRY(11),
-	CHAIN_LINK(12),
-	BOUNTY_HUNTER_EMBLEM(20),
-	LEAGUE(22),
-	GROUP_IRONMAN(41),
-	HARDCORE_GROUP_IRONMAN(42),
-	UNRANKED_GROUP_IRONMAN(43);
-
-	private final int index;
+	public WinDef.ULONG State;
+	public WinDef.ULONG Mss;
+	public WinDef.ULONGLONG ConnectionTimeMs;
+	public WinDef.BOOL TimestampsEnabled;
+	public WinDef.ULONG RttUs;
+	public WinDef.ULONG MinRttUs;
+	public WinDef.ULONG BytesInFlight;
+	public WinDef.ULONG Cwnd;
+	public WinDef.ULONG SndWnd;
+	public WinDef.ULONG RcvWnd;
+	public WinDef.ULONG RcvBuf;
+	public WinDef.ULONGLONG BytesOut;
+	public WinDef.ULONGLONG BytesIn;
+	public WinDef.ULONG BytesReordered;
+	public WinDef.ULONG BytesRetrans;
+	public WinDef.ULONG FastRetrans;
+	public WinDef.ULONG DupAcksIn;
+	public WinDef.ULONG TimeoutEpisodes;
+	public WinDef.UCHAR SynRetrans;
 
 	@Override
-	public String toString()
+	protected List<String> getFieldOrder()
 	{
-		return "<img=" + String.valueOf(this.index) + ">";
+		return List.of(
+			"State",
+			"Mss",
+			"ConnectionTimeMs",
+			"TimestampsEnabled",
+			"RttUs",
+			"MinRttUs",
+			"BytesInFlight",
+			"Cwnd",
+			"SndWnd",
+			"RcvWnd",
+			"RcvBuf",
+			"BytesOut",
+			"BytesIn",
+			"BytesReordered",
+			"BytesRetrans",
+			"FastRetrans",
+			"DupAcksIn",
+			"TimeoutEpisodes",
+			"SynRetrans"
+		);
 	}
 }
