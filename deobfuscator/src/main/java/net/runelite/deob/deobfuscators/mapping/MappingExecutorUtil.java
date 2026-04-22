@@ -53,6 +53,8 @@ public class MappingExecutorUtil
 {
 	public static ParallelExecutorMapping map(Method m1, Method m2)
 	{
+		if (m1.getCode() == null || m2.getCode() == null)
+			return new ParallelExecutorMapping(m1.getClassFile().getGroup(), m2.getClassFile().getGroup());
 		ClassGroup group1 = m1.getClassFile().getGroup();
 		ClassGroup group2 = m2.getClassFile().getGroup();
 
