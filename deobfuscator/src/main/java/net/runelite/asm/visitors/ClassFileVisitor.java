@@ -41,7 +41,7 @@ public class ClassFileVisitor extends ClassVisitor
 
 	public ClassFileVisitor()
 	{
-		super(Opcodes.ASM5);
+		super(Opcodes.ASM9);
 	}
 
 	public ClassFile getClassFile()

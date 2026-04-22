@@ -35,7 +35,7 @@ public class VersionMethodVisitor extends MethodVisitor
 
 	VersionMethodVisitor()
 	{
-		super(Opcodes.ASM5);
+		super(Opcodes.ASM9);
 	}
 
 	@Override
