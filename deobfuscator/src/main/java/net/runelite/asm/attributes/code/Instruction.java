@@ -83,7 +83,8 @@ public abstract class Instruction implements Cloneable
 
 	public boolean removeStack()
 	{
-		assert instructions != null;
+		if (instructions == null)
+			return true; // already removed
 
 		this.getInstructions().remove(this); // calls remove()
 

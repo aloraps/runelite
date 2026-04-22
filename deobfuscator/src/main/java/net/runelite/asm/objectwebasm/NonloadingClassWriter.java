@@ -105,6 +105,13 @@ public class NonloadingClassWriter extends ClassWriter
 				return other;
 
 		// This should pretty much never be hit, right?
-		return super.getCommonSuperClass(prev.getSuperName(), other);
+		try
+		{
+			return super.getCommonSuperClass(prev.getSuperName(), other);
+		}
+		catch (RuntimeException ex)
+		{
+			return "java/lang/Object";
+		}
 	}
 }

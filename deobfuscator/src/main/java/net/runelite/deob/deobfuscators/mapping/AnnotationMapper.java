@@ -121,7 +121,7 @@ public class AnnotationMapper
 
 		for (Annotation a : from.getAnnotations().values())
 		{
-			if (isCopyable(a))
+			if (isCopyable(a) && to.findAnnotation(a.getType()) == null)
 			{
 				to.addAnnotation(a);
 				++count;

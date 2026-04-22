@@ -82,7 +82,7 @@ public class CodeVisitor extends MethodVisitor
 
 	CodeVisitor(ClassFile classFile, int access, String name, Signature signature, String[] sexceptions)
 	{
-		super(Opcodes.ASM5);
+		super(Opcodes.ASM9);
 
 		this.classFile = classFile;
 

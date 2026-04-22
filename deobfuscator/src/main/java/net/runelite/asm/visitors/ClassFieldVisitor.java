@@ -39,7 +39,7 @@ public class ClassFieldVisitor extends FieldVisitor
 
 	ClassFieldVisitor(ClassFile cf, int access, String name, Type desc, Object value)
 	{
-		super(Opcodes.ASM5);
+		super(Opcodes.ASM9);
 
 		this.field = new Field(cf, name, desc);
 		this.field.setAccessFlags(access);

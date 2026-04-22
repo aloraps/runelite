@@ -91,13 +91,23 @@ public class UpdateMappings
 	{
 		if (args.length < 3)
 		{
+			System.out.println("Bad args");
 			System.exit(-1);
 		}
 
+		if (new File(args[0]) == null || new File(args[1]) == null) {
+			System.out.println("Bad file");
+			System.exit(-1);
+		} else {
+			System.out.println(new File(args[0]).getTotalSpace());
+			System.out.println(new File(args[1]).getTotalSpace());
+			System.out.println(new File(args[2]).getTotalSpace());
+		}
 		UpdateMappings u = new UpdateMappings(
 			JarUtil.load(new File(args[0])),
 			JarUtil.load(new File(args[1]))
 		);
+
 		u.update();
 		u.save(new File(args[2]));
 	}

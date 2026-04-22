@@ -68,7 +68,7 @@ public class Annotation extends AnnotationVisitor implements Comparable<Annotati
 
 	public Annotation(Type type, boolean visible)
 	{
-		super(Opcodes.ASM5);
+		super(Opcodes.ASM9);
 		this.type = type;
 		this.visible = visible;
 	}
@@ -143,7 +143,7 @@ public class Annotation extends AnnotationVisitor implements Comparable<Annotati
 	{
 		final var lst = new ArrayList<>();
 		data.put(name, lst);
-		return new AnnotationVisitor(Opcodes.ASM5)
+		return new AnnotationVisitor(Opcodes.ASM9)
 		{
 			@Override
 			public void visit(String name, Object value)
